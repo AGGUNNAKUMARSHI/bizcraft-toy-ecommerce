@@ -1,0 +1,88 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Basic page background and font smoothing */
+html, body, #root {
+  height: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Animated underline for nav links (we'll target .nav-link) */
+.nav-link {
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+/* using a pseudo-element for a smooth animated underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 3px;
+  width: 0;
+  border-radius: 9999px;
+  transition: width 280ms ease, background-color 280ms ease;
+  background-color: transparent;
+}
+
+/* on hover expand underline (desktop only — controlled by parent hover) */
+a:hover .nav-link::after {
+  width: 100%;
+  background-color: rgba(14,165,233,1); /* sky-500 */
+}
+
+/* when link is active we add full underline */
+[aria-current="page"] .nav-link::after {
+  width: 100%;
+  background-color: rgba(14,165,233,1);
+}
+
+/* Theme-specific header backgrounds using data attribute on <html> */
+:root {
+  --header-bg-light: #ffffff;
+  --header-border-light: #e6e6e6;
+  --header-bg-dark: #0f172a; /* slate-900 */
+  --header-border-dark: #111827;
+  --header-text-dark: #e6eef8;
+  --header-gradient: linear-gradient(90deg,#06b6d4,#6366f1); /* teal -> indigo-ish */
+}
+
+/* Default (light) */
+.header-bg {
+  background: var(--header-bg-light);
+  border-bottom-color: var(--header-border-light);
+  color: #0f172a;
+}
+
+/* dark theme */
+[data-nav-theme="dark"] .header-bg {
+  background: var(--header-bg-dark);
+  border-bottom-color: var(--header-border-dark);
+  color: var(--header-text-dark);
+}
+[data-nav-theme="dark"] .header-bg a { color: var(--header-text-dark); }
+[data-nav-theme="dark"] .header-bg .bg-sky-600 { /* adapt button color in dark theme */
+  background-color: #0ea5a4; /* a teal color */
+}
+
+/* gradient theme */
+[data-nav-theme="gradient"] .header-bg {
+  background: var(--header-gradient);
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+[data-nav-theme="gradient"] .header-bg a { color: rgba(255,255,255,0.95); }
+[data-nav-theme="gradient"] .header-bg .bg-sky-600 {
+  background-color: rgba(255,255,255,0.12); /* make 'Get in touch' subtle */
+  color: white;
+}
+
+/* small polish */
+.header-bg img { display: inline-block; }
